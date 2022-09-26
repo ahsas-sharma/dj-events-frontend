@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,7 +8,24 @@ import { API_URL } from '@/config/index';
 import styles from '@/styles/Event.module.css';
 
 export default function EventPage({ evt }) {
-  const deleteEvent = (e) => {
+  const router = useRouter();
+  const deleteEvent = async (e) => {
+    const res = await fetch(
+      `${API_URL}/api/events?filters[slug]=${evt.slug}&fields[0]=id`
+    );
+    const data = await res.json();
+    const id = data.data[0].id;
+    if (confirm(`Are you sure you want to delete ${id} - ${evt.name}?`)) {
+      const res = await fetch(`${API_URL}/api/events/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message);
+      } else {
+        router.push('/events');
+      }
+    }
     console.log('delete');
   };
 
@@ -20,7 +39,7 @@ export default function EventPage({ evt }) {
               Edit Event
             </a>
           </Link>
-          <a href='#' className={styles.delete}>
+          <a href='#' className={styles.delete} onClick={deleteEvent}>
             <FaTimes />
             Delete Event
           </a>
@@ -30,6 +49,7 @@ export default function EventPage({ evt }) {
           {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
         </span>
         <h1>{evt.name}</h1>
+        <ToastContainer />
         {evt.image.data && (
           <div className={styles.image}>
             <Image
