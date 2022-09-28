@@ -9,11 +9,11 @@ import styles from '@/styles/AuthForm.module.css';
 
 export default function LoginPage() {
   const { login, error } = useContext(AuthContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    console.log('ran use effect');
     error && toast.error(error);
   }, [error]);
 

@@ -188,7 +188,7 @@ export default function EditEventPage({ evt }) {
   );
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id }, req }) {
   var res = await fetch(
     `${API_URL}/api/events?filters[slug]=${id}&fields[0]=id`
   );
@@ -198,7 +198,8 @@ export async function getServerSideProps({ params: { id } }) {
   data = await res.json();
   const evt = data.data.attributes;
   evt['id'] = objectId;
-  console.log(`[id].js / getServerSideProps / ${JSON.stringify(evt, null, 4)}`);
+
+  console.log(req.headers.cookie);
   return {
     props: { evt },
   };
