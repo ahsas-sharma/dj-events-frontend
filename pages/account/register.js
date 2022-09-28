@@ -13,12 +13,18 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const [register, error] = useContext(AuthContext);
+  const { register, error } = useContext(AuthContext);
+
+  useEffect(() => {
+    error && toast.error(error);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (password !== passwordConfirm) {
       toast.error('Passwords do not match.');
+      return;
     }
 
     register({ username, email, password });
@@ -64,11 +70,7 @@ export default function RegisterPage() {
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
-          <input type='submit' value='Login' className='btn' />
-          <p>
-            Don't have an account?{' '}
-            <Link href='/account/register'>Register</Link>
-          </p>
+          <input type='submit' value='Register' className='btn' />
         </form>
       </div>
     </Layout>

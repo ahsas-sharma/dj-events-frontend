@@ -8,13 +8,14 @@ import Layout from '@/components/Layout';
 import styles from '@/styles/AuthForm.module.css';
 
 export default function LoginPage() {
-  const { login, error } = useContext(AuthContext);
+  const { login, error, setError } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
     error && toast.error(error);
+    setError(null);
   }, [error]);
 
   const handleSubmit = (e) => {
