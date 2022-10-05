@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('AuthContext: useEffect()');
     checkUserLoggedIn();
   }, []);
 

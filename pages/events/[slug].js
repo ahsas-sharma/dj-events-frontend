@@ -9,42 +9,10 @@ import styles from '@/styles/Event.module.css';
 
 export default function EventPage({ evt }) {
   const router = useRouter();
-  const deleteEvent = async (e) => {
-    const res = await fetch(
-      `${API_URL}/api/events?filters[slug]=${evt.slug}&fields[0]=id`
-    );
-    const data = await res.json();
-    const id = data.data[0].id;
-    if (confirm(`Are you sure you want to delete ${id} - ${evt.name}?`)) {
-      const res = await fetch(`${API_URL}/api/events/${id}`, {
-        method: 'DELETE',
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.message);
-      } else {
-        router.push('/events');
-      }
-    }
-    console.log('delete');
-  };
 
   return (
     <Layout>
       <div className={styles.event}>
-        <div className={styles.controls}>
-          <Link href={`/events/edit/${evt.slug}`}>
-            <a>
-              <FaPencilAlt />
-              Edit Event
-            </a>
-          </Link>
-          <a href='#' className={styles.delete} onClick={deleteEvent}>
-            <FaTimes />
-            Delete Event
-          </a>
-        </div>
-
         <span>
           {new Date(evt.date).toLocaleDateString('en-US')} at {evt.time}
         </span>
@@ -53,7 +21,7 @@ export default function EventPage({ evt }) {
         {evt.image.data && (
           <div className={styles.image}>
             <Image
-              src={evt.image.data.attributes.formats.large.url}
+              src={evt.image.data.attributes.formats.medium.url}
               width={960}
               height={600}
             />
