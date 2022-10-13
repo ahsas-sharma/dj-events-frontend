@@ -42,7 +42,6 @@ export default function AddEventPage({ token }) {
       data: values,
     };
 
-    console.log(JSON.stringify(payload, null, 4));
     const res = await fetch(`${API_URL}/api/events/`, {
       method: 'POST',
       headers: {
@@ -60,7 +59,6 @@ export default function AddEventPage({ token }) {
       toast.error('Something went wrong');
     } else {
       const evt = await res.json();
-      console.log(evt);
       router.push(`/events/${evt.slug}`);
     }
   };

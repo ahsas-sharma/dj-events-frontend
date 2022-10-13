@@ -23,7 +23,6 @@ export default function DashboardPage({ events, token }) {
         router.reload();
       }
     }
-    console.log('delete');
   };
 
   return (

@@ -46,37 +46,39 @@ export default function EventPage({ evt }) {
 }
 
 // Request will be made each time the page is loaded
-// export async function getServerSideProps({ query: { slug } }) {
-//   const res = await fetch(`${API_URL}/api/events/${slug}`);
-//   const events = await res.json();
-//   return {
-//     props: {
-//       evt: events[0],
-//     },
-//   };
-// }
-
-export async function getStaticPaths() {
-  const res = await fetch(`${API_URL}/api/events`);
-  const events = await res.json();
-  const paths = events.data.map((evt) => ({
-    params: { slug: evt.attributes.slug },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params: { slug } }) {
+export async function getServerSideProps({ query: { slug } }) {
   const res = await fetch(
     `${API_URL}/api/events?filters[slug]=${slug}&populate=*`
   );
-  const event = await res.json();
+  const events = await res.json();
   return {
     props: {
-      evt: event.data[0].attributes,
+      evt: events.data[0].attributes,
     },
-    revalidate: 1,
   };
 }
+
+// export async function getStaticPaths() {
+//   const res = await fetch(`${API_URL}/api/events`);
+//   const events = await res.json();
+//   const paths = events.data.map((evt) => ({
+//     params: { slug: evt.attributes.slug },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
+
+// export async function getStaticProps({ params: { slug } }) {
+//   const res = await fetch(
+//     `${API_URL}/api/events?filters[slug]=${slug}&populate=*`
+//   );
+//   const event = await res.json();
+//   return {
+//     props: {
+//       evt: event.data[0].attributes,
+//     },
+//     revalidate: 1,
+//   };
+// }

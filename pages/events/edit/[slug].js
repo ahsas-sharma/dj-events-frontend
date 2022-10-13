@@ -33,10 +33,8 @@ export default function EditEventPage({ evt, token }) {
   const router = useRouter();
 
   const imageUploaded = async (e) => {
-    console.log(`IMAGE HAS BEEN UPLOADED SUCCESSFULLY`);
     const res = await fetch(`${API_URL}/api/events/${evt.id}?populate=*`);
     const data = await res.json();
-    console.log(data);
     setImagePreview(
       data.data.attributes.image.data.attributes.formats.thumbnail.url
     );
@@ -62,7 +60,6 @@ export default function EditEventPage({ evt, token }) {
     const payload = {
       data: values,
     };
-    console.log(JSON.stringify(payload));
     const res = await fetch(`${API_URL}/api/events/${evt.id}`, {
       method: 'PUT',
       headers: {
@@ -80,7 +77,6 @@ export default function EditEventPage({ evt, token }) {
       toast.error('Something went wrong');
     } else {
       const evt = await res.json();
-      console.log(evt);
       router.push(`/events/${evt.slug}`);
     }
   };

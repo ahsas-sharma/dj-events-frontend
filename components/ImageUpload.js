@@ -28,12 +28,11 @@ export default function ImageUpload({ evtId, token, imageUploaded }) {
 
   const handleFileChange = (e) => {
     setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
 
   return (
     <div className={styles.form}>
-      <h1>Upload Event Image for ID:{evtId}</h1>
+      <h1>Upload Event Image</h1>
       <form onSubmit={handleSubmit}>
         <div className={styles.file}>
           <input type='file' onChange={handleFileChange} />

@@ -37,15 +37,12 @@ export default function EventMap({ evt }) {
       const data = await res.json();
 
       if (data.results.length > 0) {
-        console.log(
-          `Result: ${JSON.stringify(data.results[0].geometry.location)}`
-        );
+      
         const { lat, lng } = data.results[0].geometry.location;
         setLat(lat);
         setLong(lng);
         setViewport({ ...viewport, latitude: lat, longitude: lng });
         setLoading(false);
-        console.log(`Setting lat and long to ${lat} / ${lng} `);
       }
     } catch (error) {
       console.log(error);
